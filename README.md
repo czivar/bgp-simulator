@@ -1,15 +1,16 @@
-# bgp-simulator
-BGP Simulator with Dijkstra's Algorithm
+# BGP simulator with MED
+BGP Simulator with Dijkstra's Algorithm (with MED)
 
 ## Overview
 
-This simulator models a simplified Border Gateway Protocol (BGP) network using Dijkstra's algorithm to calculate the shortest paths between Autonomous Systems (AS). Each AS is represented as a node in the graph, and the edges represent the connections between AS with their respective weights (latencies).
+This simulator models a simplified Border Gateway Protocol (BGP) network using Dijkstra's algorithm to calculate the shortest paths between Autonomous Systems (AS). Each AS is represented as a node in the graph, and the edges represent the connections between AS with their respective weights (latencies). In BGP, the MED attribute is used to indicate the preference of one exit point over another when there are multiple exit points to the same neighboring AS. Here's an updated version of the BGP simulator that models MED.
 
 ## Explanation
-We define an AutonomousSystem class to represent each AS, with attributes for its ASN, name, and peers.
-The BGP class manages the AS graph and implements Dijkstra's algorithm to calculate the shortest paths.
-The shortest_path method returns the shortest path and its distance between two given AS.
-The print_routing_table method displays the routing table for a given AS, showing the shortest paths to all other AS.
+The code models a BGP network with Autonomous Systems (AS) and their peering relationships.
+Each AS can advertise prefixes with MED values, and the best path to a prefix is selected based on the MED value.
+The shortest_path method uses Dijkstra's algorithm to calculate the shortest path between two AS.
+The best_path method selects the best path to a prefix based on MED values.
+The print_routing_table method displays the routing table for a given AS.
 
 ## Run it and Output
 
@@ -21,11 +22,9 @@ python3 simulator.py
 Will print something like:
 
 ```
-Code
-Shortest path from AS100 to AS400: ['ISP-A', 'ISP-B', 'ISP-C', 'ISP-D']
-Distance: 35
 Routing table for ISP-A (AS100):
-  - ISP-B (AS200): ['ISP-A', 'ISP-B'] with latency 10
-  - ISP-C (AS300): ['ISP-A', 'ISP-B', 'ISP-C'] with latency 15
-  - ISP-D (AS400): ['ISP-A', 'ISP-B', 'ISP-C', 'ISP-D'] with latency 35
+Routing table for ISP-B (AS200):
+  - 10.0.0.0/8: ['ISP-B', 'ISP-C'] with MED 5
+Routing table for ISP-C (AS300):
+  - 10.0.0.0/8: ['ISP-C', 'ISP-B'] with MED 10
 ```
